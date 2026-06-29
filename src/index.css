@@ -1,0 +1,237 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+:root {
+  --bg-color: #2c2c2c;
+  --text-main: #fff;
+  --flappy-blue: #4ec0ca;
+  --flappy-green: #73bf2e;
+  --flappy-ground: #ded895;
+  --board-bg: #ded895;
+  --board-border: #543847;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Press Start 2P', monospace;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  padding: 20px;
+}
+
+.game-wrapper {
+  position: relative;
+  width: 800px;
+  height: 600px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+  background: var(--flappy-blue);
+  border: 4px solid #000;
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+}
+
+.ui-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 40px;
+}
+
+/* Text with black border (Flappy Bird style) */
+.pixel-text {
+  color: #fff;
+  text-shadow: 
+    -3px -3px 0 #000,
+     0   -3px 0 #000,
+     3px -3px 0 #000,
+     3px  0   0 #000,
+     3px  3px 0 #000,
+     0    3px 0 #000,
+    -3px  3px 0 #000,
+    -3px  0   0 #000,
+     4px  4px 0 rgba(0,0,0,0.5);
+  text-align: center;
+}
+
+.score-display {
+  font-size: 2.5rem;
+  letter-spacing: 2px;
+}
+
+.best-display {
+  font-size: 1.2rem;
+  margin-top: 10px;
+}
+
+.instruction-text {
+  position: absolute;
+  bottom: 120px; /* Above the ground */
+  font-size: 1.2rem;
+  width: 100%;
+  text-align: center;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  pointer-events: auto;
+  z-index: 10;
+  background: rgba(0,0,0,0.3);
+}
+
+/* Retro Game Over Board */
+.game-over-board {
+  background: #e8dbb0;
+  border: 4px solid #543847;
+  border-radius: 8px;
+  padding: 20px;
+  width: 400px;
+  box-shadow: inset -4px -4px 0px rgba(0,0,0,0.1), 0 10px 0 rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+  animation: slideUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.game-over-title {
+  color: #f7a833;
+  font-size: 2rem;
+  margin-bottom: 25px;
+  text-shadow: 
+    -2px -2px 0 #000,
+     0   -2px 0 #000,
+     2px -2px 0 #000,
+     2px  0   0 #000,
+     2px  2px 0 #000,
+     0    2px 0 #000,
+    -2px  2px 0 #000,
+    -2px  0   0 #000;
+}
+
+.score-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 20px;
+}
+
+.score-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.score-label {
+  color: #f7a833;
+  font-size: 0.8rem;
+  margin-bottom: 10px;
+  text-shadow: -1px -1px 0 #000, 0 -1px 0 #000, 1px -1px 0 #000, 1px 0 0 #000, 1px 1px 0 #000, 0 1px 0 #000, -1px 1px 0 #000, -1px 0 0 #000;
+}
+
+.score-value {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.5rem;
+  color: #fff;
+  text-shadow: -2px -2px 0 #000, 0 -2px 0 #000, 2px -2px 0 #000, 2px 0 0 #000, 2px 2px 0 #000, 0 2px 0 #000, -2px 2px 0 #000, -2px 0 0 #000;
+}
+
+.medal {
+  width: 30px;
+  height: 30px;
+  background: #ffd700;
+  border: 2px solid #000;
+  border-radius: 50%;
+  position: relative;
+}
+.medal::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 15px solid #d32f2f;
+}
+
+.button-container {
+  display: flex;
+  gap: 20px;
+}
+
+.retro-btn {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.8rem;
+  color: #fff;
+  padding: 15px 20px;
+  border: 3px solid #000;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  transition: transform 0.1s;
+}
+
+.retro-btn:active {
+  transform: translateY(4px);
+}
+
+.btn-green {
+  background: #73bf2e;
+  box-shadow: inset -3px -3px 0px rgba(0,0,0,0.2), 0 4px 0 #000;
+}
+
+.btn-blue {
+  background: #1e88e5;
+  box-shadow: inset -3px -3px 0px rgba(0,0,0,0.2), 0 4px 0 #000;
+}
+
+.btn-icon {
+  font-size: 1.2rem;
+}
